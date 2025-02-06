@@ -1,44 +1,58 @@
+// Variables
 @import "../node_modules/scss-reset/src/scss/_reset.scss";
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;600;700&family=Roboto:wght@400;500&display=swap");
-// font-family: 'Roboto Mono', monospace;
+
 $darkgray: #131417;
 $lightgray: #252830;
 $orange: #f2994a;
-//helper-style
-.font-menu {
+$font-family-primary: "Roboto", sans-serif;
+$font-family-secondary: "Roboto Mono", monospace;
+$transition-duration: 300ms;
+$transition-timing: ease-out;
+
+// Mixins
+@mixin transition($property: all, $duration: $transition-duration, $timing: $transition-timing) {
+    -webkit-transition: $property $duration $timing;
+    -moz-transition: $property $duration $timing;
+    -ms-transition: $property $duration $timing;
+    -o-transition: $property $duration $timing;
+    transition: $property $duration $timing;
+}
+
+@mixin box-sizing($box-model) {
+    -webkit-box-sizing: $box-model;
+    -moz-box-sizing: $box-model;
+    box-sizing: $box-model;
+}
+
+@mixin font-menu {
     font-size: 18px;
     line-height: 24px;
     color: #fafafa;
     text-decoration: none;
 }
-.transition {
-    -webkit-transition: all 300ms ease-out;
-    -moz-transition: all 300ms ease-out;
-    -ms-transition: all 300ms ease-out;
-    -o-transition: all 300ms ease-out;
-    transition: all 300ms ease-out;
-}
+
+// Base styles
 html {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+    @include box-sizing(border-box);
 }
+
 *,
 *:before,
 *:after {
-    -webkit-box-sizing: inherit;
-    -moz-box-sizing: inherit;
-    box-sizing: inherit;
+    @include box-sizing(inherit);
     outline: none !important;
 }
 
 body {
-    font-family: "Roboto", sans-serif;
+    font-family: $font-family-primary;
     overflow: hidden;
 }
+
 a {
     cursor: pointer;
 }
+
 .wrapper {
     background-image: url("../images/alpaca.png");
     background-size: cover;
@@ -46,12 +60,12 @@ a {
     background-repeat: no-repeat;
     height: calc(100vh - 80px);
 }
+
 .header-wrapper {
     background: $darkgray;
     box-shadow: 0px 4px 4px rgba(19, 20, 23, 0.4);
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
     height: 80px;
@@ -62,13 +76,11 @@ a {
     max-width: 1280px;
     width: 100%;
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
-    align-content: stretch;
     padding: 0 42px;
     height: 100%;
+
     &__logo {
         a {
             border: 0;
@@ -81,58 +93,56 @@ a {
             width: 46px;
         }
     }
+
     &__menu {
         display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
         justify-content: space-between;
         align-items: center;
-        align-content: stretch;
         height: 100%;
         max-width: 678px;
         width: 100%;
+
         *,
         *:before,
         *:after {
-            @extend .transition;
+            @include transition;
         }
     }
+
     &__contacts {
-        font-family: "Roboto Mono", monospace;
+        font-family: $font-family-secondary;
         white-space: nowrap;
         display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
         justify-content: flex-end;
         align-items: center;
-        align-content: stretch;
+
         svg {
             margin-right: 13px;
         }
+
         a {
-            @extend .font-menu;
+            @include font-menu;
         }
     }
 }
+
 .menu-item {
     position: relative;
     height: 100%;
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
-    align-content: stretch;
     white-space: nowrap;
 
     &__link {
-        @extend .font-menu;
-        font-size: 18px;
+        @include font-menu;
         padding: 0 20px;
         position: relative;
     }
+
     &.drop-icon > a {
         display: inline-flex;
+
         &:after {
             content: "";
             width: 8px;
@@ -148,10 +158,12 @@ a {
             background-repeat: no-repeat;
         }
     }
+
     &:hover {
         & > ul {
             display: flex;
         }
+
         &.drop-icon > a {
             &::after {
                 transform: translateY(50%) rotate(0);
@@ -159,16 +171,16 @@ a {
         }
     }
 }
+
 .first-sub-menu {
     flex-direction: column;
-    flex-wrap: nowrap;
     justify-content: flex-start;
     align-items: flex-start;
-    align-content: stretch;
     position: absolute;
     top: 80px;
     left: 0;
     display: none;
+
     &::after {
         content: "";
         left: 47px;
@@ -181,24 +193,24 @@ a {
         border-color: transparent transparent $lightgray transparent;
     }
 }
+
 .first-sub-menu-item,
 .second-sub-menu-item {
     width: 320px;
     position: relative;
 
     &:last-child {
-        &__link {
-        
-        }
         border: 0;
     }
+
     &:hover {
         .first-sub-menu-item__link {
             background: $darkgray;
         }
     }
+
     &__link {
-        @extend .font-menu;
+        @include font-menu;
         font-size: 16px;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -210,6 +222,7 @@ a {
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 }
+
 .second-sub-menu-item {
     width: 181px;
 
@@ -218,6 +231,7 @@ a {
             border-radius: 8px 8px 0 0;
         }
     }
+
     &:last-child {
         .second-sub-menu-item__link {
             border-radius: 0px 0px 8px 8px;
@@ -229,12 +243,13 @@ a {
             background: $darkgray;
         }
     }
+
     &__link {
         padding-right: 12px;
-
         width: auto;
     }
 }
+
 .first-sub-menu-item {
     &:hover {
         .second-sub-menu {
@@ -244,6 +259,7 @@ a {
             position: absolute;
         }
     }
+
     &.drop-icon > a {
         &::after {
             content: "";
@@ -260,20 +276,21 @@ a {
             background-repeat: no-repeat;
         }
     }
+
     &:last-child {
         .first-sub-menu-item__link {
             border-radius: 0px 0px 8px 8px;
         }
     }
 }
+
 .second-sub-menu {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
     justify-content: flex-end;
     align-items: center;
-    align-content: stretch;
     display: none;
+
     &::before {
         position: absolute;
         width: 30px;
@@ -282,6 +299,7 @@ a {
         left: -30px;
         content: "";
     }
+
     &::after {
         position: absolute;
         bottom: 8px;
@@ -294,16 +312,16 @@ a {
         content: "";
     }
 }
+
 .header-hamburger {
     height: 14px;
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
-    align-content: stretch;
     cursor: pointer;
     display: none;
+
     .bar {
         height: 2px;
         width: 22px;
@@ -315,9 +333,11 @@ a {
     .header {
         padding: 0 34px 0 20px;
     }
+
     .header-hamburger {
         display: flex;
     }
+
     .menu {
         position: absolute;
         flex-direction: column;
@@ -329,20 +349,21 @@ a {
         width: 374px;
         right: -374px;
         background-color: $darkgray;
+
         &.show {
             right: 0;
-            transition-property: all;
-            transition-duration: 0.2s;
-            transition-timing-function: linear;
-            transition-delay: 0s;
+            @include transition(all, 0.2s, linear);
         }
+
         * {
             background-color: $lightgray !important;
         }
+
         .drop-icon,
         .drop-icon > a {
             background-color: $darkgray !important;
         }
+
         &__item {
             padding: 0;
             width: 100%;
@@ -350,10 +371,12 @@ a {
             height: auto;
         }
     }
+
     .menu-item {
         &__link {
             display: block;
             line-height: 64px;
+
             &.drop-icon > a {
                 &::after {
                     right: 0;
@@ -361,6 +384,7 @@ a {
             }
         }
     }
+
     .first-sub-menu,
     .second-sub-menu {
         position: relative;
@@ -371,16 +395,20 @@ a {
             height: auto;
         }
     }
+
     .drop-icon > a {
         text-overflow: ellipsis;
         overflow: hidden;
         display: block;
     }
+
     .first-sub-menu {
         top: 0;
         overflow: hidden;
+
         &__item {
             width: 100%;
+
             &:hover {
                 .second-sub-menu {
                     position: relative;
@@ -389,21 +417,26 @@ a {
                 }
             }
         }
+
         &::after {
             content: none;
         }
     }
+
     .second-sub-menu {
         &__item {
             width: 100%;
         }
+
         &::before {
             content: none;
         }
+
         &::after {
             content: none;
         }
     }
+
     .first-sub-menu-item,
     .second-sub-menu-item {
         &:first-child,
@@ -411,6 +444,7 @@ a {
             border-radius: 0;
             border: 0;
         }
+
         &__link {
             padding: 20px 30px 20px 20px;
             width: 100%;
@@ -418,6 +452,7 @@ a {
             position: relative;
         }
     }
+
     .wrapper {
         &.darkmode {
             background-image: linear-gradient(to bottom, rgba(19, 20, 23, 0.5), rgba(19, 20, 23, 0.5)),
@@ -440,6 +475,7 @@ a {
                 url("../images/alpaca.png");
         }
     }
+
     .drop-icon {
         &.show {
             & > a,
@@ -448,6 +484,7 @@ a {
                     transform: translateY(50%) rotate(0) !important;
                 }
             }
+
             & > ul {
                 height: auto;
             }
@@ -469,6 +506,7 @@ a {
         }
     }
 }
+
 @media (max-width: 403px) {
     .menu {
         width: 100%;
